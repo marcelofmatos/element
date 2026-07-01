@@ -1,0 +1,52 @@
+{
+  "default_server_config": {
+    "m.homeserver": {
+      "base_url": "${ELEMENT_BASE_URL}",
+      "server_name": "${ELEMENT_SERVER_NAME}"
+    }
+  },
+  "brand": "${ELEMENT_BRAND}",
+  "branding": {
+    "auth_header_logo_url": "/branding/logo-mark.svg",
+    "welcome_background_url": "/branding/login-bg.jpg?v=1"
+  },
+  "embedded_pages": {
+    "welcome_url": "/branding/welcome.html?v=2"
+  },
+  "default_theme": "Dark",
+  "setting_defaults": {
+    "use_system_theme": false,
+    "custom_themes": [
+      {
+        "name": "Dark",
+        "is_dark": true,
+        "colors": {
+          "accent-color": "#7c3aed",
+          "primary-color": "#06b6d4",
+          "warning-color": "#f43f5e",
+          "alert": "#f43f5e",
+          "sidebar-color": "#0a0813",
+          "roomlist-background-color": "#0d0a18",
+          "roomlist-text-color": "#f3f0ff",
+          "roomlist-text-secondary-color": "#a99fce",
+          "roomlist-highlights-color": "#191234",
+          "roomlist-separator-color": "#1b1730",
+          "timeline-background-color": "#070611",
+          "timeline-text-color": "#f3f0ff",
+          "timeline-text-secondary-color": "#a99fce",
+          "timeline-highlights-color": "#141029",
+          "reaction-row-button-selected-bg-color": "#7c3aed",
+          "menu-selected-color": "#191234",
+          "focus-bg-color": "#191234",
+          "room-highlight-color": "#191234",
+          "togglesw-off-color": "#221c3a",
+          "other-user-pill-bg-color": "#7c3aed",
+          "username-colors": ["#7c3aed", "#06b6d4", "#d946ef", "#8b5cf6", "#22d3ee", "#a78bfa", "#f472b6", "#f59e0b"]
+        }
+      }
+    ]
+  },
+  "disable_guests": true,
+  "disable_3pid_login": false,
+  "show_labs_settings": false
+}

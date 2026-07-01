@@ -1,0 +1,31 @@
+/* Branding white-label (paleta do marcelomatos.dev) — sobreposto ao tema "Dark".
+   Violeta #7c3aed · magenta #d946ef · ciano #06b6d4 · fundo #070611. */
+
+/* Painel esquerdo da tela de login (onde fica a logo) com o gradiente da marca
+   (violeta -> ciano), em vez do cinza padrao. */
+.mx_AuthHeader {
+  background: linear-gradient(160deg, #7c3aed 0%, #06b6d4 100%) !important;
+}
+/* casa com o raio do card (24px) nos cantos do lado esquerdo */
+.mx_AuthPage_modal .mx_AuthHeader,
+.mx_AuthPage_modalContent .mx_AuthHeader {
+  border-radius: 24px 0 0 24px !important;
+}
+
+/* Seletor de idioma: so o VALOR FECHADO fica branco (sobre o painel colorido).
+   O menu aberto (popup branco) NAO e tocado. */
+.mx_AuthHeader .mx_Dropdown_input,
+.mx_AuthHeader .mx_Dropdown_input .mx_Dropdown_option,
+.mx_AuthHeader .mx_Dropdown_input span {
+  color: #ffffff !important;
+}
+.mx_AuthHeader .mx_Dropdown_arrow {
+  background-color: #ffffff !important;
+}
+
+/* Botoes primarios com o gradiente violeta -> magenta do site (texto branco). */
+.mx_AccessibleButton_kind_primary {
+  background: linear-gradient(120deg, #7c3aed 0%, #d946ef 100%) !important;
+  color: #ffffff !important;
+  box-shadow: 0 8px 24px rgba(124, 58, 237, 0.35);
+}

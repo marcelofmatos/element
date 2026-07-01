@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120" fill="none" role="img" aria-label="Chat">
+  <!-- Balao de chat neutro (white-label). Mostrado sobre o painel com gradiente
+       da marca (violet->cyan) na tela de login, por isso e branco/monocromatico.
+       Mesma geometria do app icon: corpo (rounded rect) + cauda de aresta reta. -->
+  <rect x="28" y="29" width="65" height="46" rx="14" fill="#ffffff"/>
+  <path d="M42 75 H59 L42 90 Z" fill="#ffffff"/>
+  <g fill="#7c3aed">
+    <circle cx="46" cy="52" r="5.4"/>
+    <circle cx="60" cy="52" r="5.4"/>
+    <circle cx="74" cy="52" r="5.4"/>
+  </g>
+</svg>
