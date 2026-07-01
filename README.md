@@ -125,6 +125,26 @@ Depois é só `docker build` de novo.
 
 Trocar a tag no `FROM` do `Dockerfile` (`vectorim/element-web:vX.Y.Z`) e rebuildar.
 
+## CI/CD (GitHub Actions → GHCR → Portainer)
+
+A imagem é versionada em **SemVer** e publicada no **GHCR** (`ghcr.io/marcelofmatos/element`).
+
+| Workflow | Gatilho | Faz |
+|---|---|---|
+| `release-and-build.yml` | manual (`workflow_dispatch`, patch/minor/major) | calcula SemVer, cria tag + release, builda e publica no GHCR (full/minor/major/latest) |
+| `docker-image.yml` | push em `homolog`/`prod`, release, manual | builda/publica no GHCR por branch + dispara webhook de deploy |
+| `deploy.yml` | após "Release and build" em `main` | dispara webhooks Portainer (HMG → PRD) |
+| `docker-set-tag.yml` | manual | promove (re-aponta) uma docker tag para uma release |
+
+**Secrets/variáveis** (Settings → Secrets and variables → Actions):
+- `PORTAINER_DEPLOY_HMG_WEBHOOK_URL` / `PORTAINER_DEPLOY_PRD_WEBHOOK_URL` — webhooks do stack no Portainer
+- (opcional) `WEBHOOK_DEPLOY_MAIN` / `WEBHOOK_DEPLOY_HOMOLOG` — usados pelo `docker-image.yml`
+- Variável `USE_ENVIRONMENTS` (`true`/`false`) — liga/desliga os GitHub Environments no `deploy.yml`
+
+> O `GITHUB_TOKEN` já tem `packages: write` para publicar no GHCR. Após o primeiro
+> publish, deixe o **pacote GHCR público** (Packages → element → Package settings →
+> Change visibility) para que a imagem seja _pullable_ anonimamente (ex.: pela stack do Portainer).
+
 ## Licença
 
 O branding deste repositório é livre para uso. O **Element Web** empacotado é
