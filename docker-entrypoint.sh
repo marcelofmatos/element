@@ -1,7 +1,7 @@
 #!/bin/sh
 # Gera o config.json e o welcome.html do Element a partir dos templates (homeserver e
 # nome da marca via env) e sobe o nginx. Branding white-label (paleta marcelomatos.dev)
-# fica assado na imagem; so o homeserver e o nome da marca sao configuraveis em runtime.
+# é criado na imagem; so o homeserver e o nome da marca sao configuraveis em runtime.
 set -e
 
 : "${ELEMENT_BASE_URL:=https://matrix.example.com}"

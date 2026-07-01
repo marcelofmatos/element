@@ -1,4 +1,4 @@
-# Element Web com branding white-label assado (paleta do marcelomatos.dev).
+# Element Web com branding white-label criado (paleta do marcelomatos.dev).
 # Imagem generica para demonstrar o chat a novos clientes: o homeserver e o nome
 # da marca sao injetados em runtime via ELEMENT_BASE_URL / ELEMENT_SERVER_NAME / ELEMENT_BRAND.
 FROM vectorim/element-web:v1.12.21
@@ -17,7 +17,7 @@ ENV ELEMENT_WEB_PORT=8080
 HEALTHCHECK --start-period=10s --interval=30s --timeout=5s --retries=3 \
   CMD wget -q --spider http://127.0.0.1:8080/config.json || exit 1
 
-# Branding assado: servido em /branding/* (nginx root = /usr/share/nginx/html -> /app)
+# Branding criado: servido em /branding/* (nginx root = /usr/share/nginx/html -> /app)
 COPY branding/ /app/branding/
 COPY branding/favicon.ico /app/favicon.ico
 

@@ -1,7 +1,7 @@
 # element
 
 Imagem Docker **white-label do [Element Web](https://github.com/element-hq/element-web)**
-com um branding genérico assado (paleta e layout do site
+com um branding genérico criado (paleta e layout do site
 [marcelomatos.dev](https://marcelomatos.dev) — tema escuro violeta → magenta → ciano).
 
 Serve para **demonstrar o chat Matrix a novos clientes**: uma tela de login e de
@@ -18,7 +18,7 @@ Imagem autocontida (o branding vai dentro dela), necessária para deploy em
 
 ## Configuração (runtime, via env)
 
-Só **três** coisas são configuráveis — tudo o mais (tema, CSS, ícones, fundo) é assado:
+Só **três** coisas são configuráveis — tudo o mais (tema, CSS, ícones, fundo) é criado:
 
 | Variável | Default | Descrição |
 |---|---|---|
@@ -26,9 +26,9 @@ Só **três** coisas são configuráveis — tudo o mais (tema, CSS, ícones, fu
 | `ELEMENT_SERVER_NAME` | `example.com` | `server_name` (a identidade `@user:server_name`) |
 | `ELEMENT_BRAND` | `Chat` | nome exibido no título, no `config.json` e na página de boas-vindas |
 
-## O que é assado vs. configurável
+## O que é criado vs. configurável
 
-| Assado (fixo na imagem) | Configurável (env, runtime) |
+| Criado (fixo na imagem) | Configurável (env, runtime) |
 |---|---|
 | Tema escuro (paleta marcelomatos.dev), `custom.css`, logos, favicon/ícones PWA | `ELEMENT_BASE_URL` |
 | `login-bg.jpg`, template do `welcome.html`, injeção do CSS no `index.html` | `ELEMENT_SERVER_NAME` |
@@ -50,7 +50,7 @@ Só **três** coisas são configuráveis — tudo o mais (tema, CSS, ícones, fu
 ```mermaid
 flowchart LR
   base["vectorim/element-web:v1.12.21<br/>(nginx :8080)"]
-  brand["branding assado<br/>(logo, tema, css, login-bg,<br/>favicon, ícones PWA)"]
+  brand["branding criado<br/>(logo, tema, css, login-bg,<br/>favicon, ícones PWA)"]
   tmpl["config.json.template +<br/>welcome.html.template"]
   entry["docker-entrypoint.sh"]
 
