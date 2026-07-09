@@ -125,30 +125,41 @@ Depois é só `docker build` de novo.
 
 ### Mensagens de voz Opus/Ogg (FluffyChat) não tocavam
 
-Mensagens de voz gravadas em clientes como o **FluffyChat** renderizavam waveform e
-duração, mas ao dar play mostravam **"Erro ao baixar o áudio"** — apesar do arquivo baixar
-e descriptografar normalmente. A falha era na **decodificação**, não no download.
+Mensagens de voz gravadas no **FluffyChat** renderizavam waveform e duração, mas o play não
+funcionava — no Firefox o player errava, no Chrome ele simplesmente nunca ficava pronto.
 
-A causa raiz tem duas camadas:
+**A causa raiz não está no Element nem no codec:** o FluffyChat grava um Ogg cuja **última
+página não tem a flag `EOS`** (end-of-stream). O fluxo Opus está intacto. O efeito:
 
-1. O decodificador nativo do navegador rejeita esse Opus/Ogg (`decodeAudioData` lança `DOMException`).
-2. O Element tem um **fallback** que reencoda para WAV via WASM (`decodeOgg`), mas o alimenta
-   com o **mesmo `ArrayBuffer`** que acabou de passar por `decodeAudioData()`. Pela spec da
-   Web Audio API, `decodeAudioData()` **destaca (neutraliza) o buffer de entrada de forma
-   síncrona — inclusive quando a decodificação falha**. O fallback então recebe um buffer
-   destacado, estoura `TypeError: attempting to access detached ArrayBuffer` e **nunca roda**.
+| | `decodeAudioData` nativo | `decodeOgg` (fallback WASM do Element) |
+|---|---|---|
+| **Firefox** | ❌ `EncodingError` | ❌ o worker não emite nada |
+| **Chrome** | ✅ decodifica (demuxer tolerante) | ❌ o worker não emite nada |
 
-A imagem injeta [`branding/opus-fix.js`](branding/opus-fix.js) no `index.html` (build-time).
-Ele envolve `BaseAudioContext.prototype.decodeAudioData` para entregar ao decodificador nativo
-uma **cópia** do buffer — assim o buffer do chamador nunca é destacado, o fallback WASM do
-próprio Element roda, decodifica o Opus e o áudio toca.
+Como o `decodeOgg` do Element **não tem caminho de `reject`** (*"no reject because the workers
+don't seem to have a fail path"*, diz o próprio comentário), quando ele é acionado o `await`
+fica pendurado para sempre: `prepare()` nunca termina, o player nunca fica pronto e **nenhum
+erro é logado**.
+
+A imagem injeta [`branding/opus-fix.js`](branding/opus-fix.js) no `index.html` (build-time),
+que envolve `BaseAudioContext.prototype.decodeAudioData` e:
+
+1. **Entrega uma cópia** do buffer ao decodificador nativo — a Web Audio API destaca
+   (neutraliza) o buffer de entrada **mesmo quando a decodificação falha**, e sem a cópia o
+   fallback do Element recebia um buffer destacado e lançava `TypeError: detached ArrayBuffer`.
+2. **Repara o Ogg** quando o nativo falha: liga o bit `EOS` na última página, recalcula o
+   CRC-32 dela e tenta decodificar de novo. Funcionando, o Element **nem chega** no `decodeOgg`
+   que trava. Se não houver reparo possível, o erro original é propagado.
+
+Ligar só o EOS (sem tocar num byte de Opus) faz o arquivo decodificar no Firefox, no Chrome e
+no worker do Element — verificado nos dois navegadores contra um arquivo real.
 
 - **Não exige buildar o Element do fonte** (o bundle oficial é minificado).
-- **Inofensivo** se o upstream corrigir: no pior caso, uma cópia a mais de um buffer pequeno
-  (áudios > 5 MB nem passam por esse caminho — vão pelo elemento `<audio>`).
+- **Inofensivo** para arquivos sãos: só age quando o decode nativo falha e o Ogg está sem EOS.
 
-Bug ainda **aberto upstream**: [element-web#32034](https://github.com/element-hq/element-web/issues/32034)
-(o `Playback.ts` é idêntico em `v1.12.21`…`v1.12.23` e no `develop` — subir a tag base **não** corrige).
+Bugs **abertos upstream**: [element-web#32034](https://github.com/element-hq/element-web/issues/32034)
+(o `Playback.ts` é idêntico em `v1.12.21`…`v1.12.23` e no `develop` — subir a tag base **não**
+corrige) e, a montante de tudo, o encoder do FluffyChat que não finaliza o stream Ogg.
 Verificação repetível: cole [`specs/opus-fix.verify.js`](specs/opus-fix.verify.js) no console do navegador.
 
 ## Atualizar a versão do Element base
