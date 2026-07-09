@@ -49,7 +49,7 @@ Só **três** coisas são configuráveis — tudo o mais (tema, CSS, ícones, fu
 
 ```mermaid
 flowchart LR
-  base["vectorim/element-web:v1.12.21<br/>(nginx :8080)"]
+  base["vectorim/element-web:v1.12.23<br/>(nginx :8080)"]
   brand["branding criado<br/>(logo, tema, css, login-bg,<br/>favicon, ícones PWA)"]
   tmpl["config.json.template +<br/>welcome.html.template"]
   entry["docker-entrypoint.sh"]
@@ -121,9 +121,42 @@ O visual fica em [`branding/`](branding/) e nos templates:
 
 Depois é só `docker build` de novo.
 
+## Correções aplicadas sobre o Element base
+
+### Mensagens de voz Opus/Ogg (FluffyChat) não tocavam
+
+Mensagens de voz gravadas em clientes como o **FluffyChat** renderizavam waveform e
+duração, mas ao dar play mostravam **"Erro ao baixar o áudio"** — apesar do arquivo baixar
+e descriptografar normalmente. A falha era na **decodificação**, não no download.
+
+A causa raiz tem duas camadas:
+
+1. O decodificador nativo do navegador rejeita esse Opus/Ogg (`decodeAudioData` lança `DOMException`).
+2. O Element tem um **fallback** que reencoda para WAV via WASM (`decodeOgg`), mas o alimenta
+   com o **mesmo `ArrayBuffer`** que acabou de passar por `decodeAudioData()`. Pela spec da
+   Web Audio API, `decodeAudioData()` **destaca (neutraliza) o buffer de entrada de forma
+   síncrona — inclusive quando a decodificação falha**. O fallback então recebe um buffer
+   destacado, estoura `TypeError: attempting to access detached ArrayBuffer` e **nunca roda**.
+
+A imagem injeta [`branding/opus-fix.js`](branding/opus-fix.js) no `index.html` (build-time).
+Ele envolve `BaseAudioContext.prototype.decodeAudioData` para entregar ao decodificador nativo
+uma **cópia** do buffer — assim o buffer do chamador nunca é destacado, o fallback WASM do
+próprio Element roda, decodifica o Opus e o áudio toca.
+
+- **Não exige buildar o Element do fonte** (o bundle oficial é minificado).
+- **Inofensivo** se o upstream corrigir: no pior caso, uma cópia a mais de um buffer pequeno
+  (áudios > 5 MB nem passam por esse caminho — vão pelo elemento `<audio>`).
+
+Bug ainda **aberto upstream**: [element-web#32034](https://github.com/element-hq/element-web/issues/32034)
+(o `Playback.ts` é idêntico em `v1.12.21`…`v1.12.23` e no `develop` — subir a tag base **não** corrige).
+Verificação repetível: cole [`specs/opus-fix.verify.js`](specs/opus-fix.verify.js) no console do navegador.
+
 ## Atualizar a versão do Element base
 
 Trocar a tag no `FROM` do `Dockerfile` (`vectorim/element-web:vX.Y.Z`) e rebuildar.
+Confira que a base nova ainda usa `#76CFA6` no `manifest.json` (o `sed` do tema falha em
+silêncio se a cor mudar) e rode `specs/opus-fix.verify.js` no console: se o upstream tiver
+corrigido o fallback, o shim continua inofensivo e pode ser removido.
 
 ## CI/CD (GitHub Actions → GHCR → Portainer)
 

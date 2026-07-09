@@ -1,7 +1,7 @@
 # Element Web com branding white-label criado (paleta do marcelomatos.dev).
 # Imagem generica para demonstrar o chat a novos clientes: o homeserver e o nome
 # da marca sao injetados em runtime via ELEMENT_BASE_URL / ELEMENT_SERVER_NAME / ELEMENT_BRAND.
-FROM vectorim/element-web:v1.12.21
+FROM vectorim/element-web:v1.12.23
 
 # A base roda como usuario nginx e /app e root; os passos de build (sed/COPY) e o
 # entrypoint (que grava /app/config.json) precisam de root. nginx escuta 8080.
@@ -35,6 +35,13 @@ RUN set -e; \
 # Injeta o CSS custom no index.html em build-time.
 RUN sed -i 's#</head>#<link rel="stylesheet" href="/branding/custom.css?v=1"></head>#' /app/index.html \
  && grep -q '/branding/custom.css' /app/index.html
+
+# Injeta o shim que conserta a reproducao de mensagens de voz Opus/Ogg (ex.: FluffyChat).
+# O Element alimenta seu fallback WAV com um ArrayBuffer ja destacado por decodeAudioData(),
+# entao o fallback nunca roda e o audio nao toca. O shim entrega uma copia ao decodificador
+# nativo, preservando o buffer do chamador. Ver specs/spec-element-web-opus-fluffychat.md
+RUN sed -i 's#</head>#<script src="/branding/opus-fix.js?v=1"></script></head>#' /app/index.html \
+ && grep -q '/branding/opus-fix.js' /app/index.html
 
 # Templates (homeserver + marca via env) + entrypoint que os gera e sobe o nginx.
 COPY config.json.template /app/config.json.template

@@ -1,2 +1,7 @@
 *.log
 .DS_Store
+
+# Spec interna: contém hostname do homeserver e event IDs de sala privada.
+# Só o verificador (genérico) é versionado.
+specs/*
+!specs/opus-fix.verify.js
