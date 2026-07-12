@@ -11,7 +11,7 @@
     "welcome_background_url": "/branding/login-bg.jpg?v=1"
   },
   "embedded_pages": {
-    "welcome_url": "/branding/welcome.html?v=2"
+    "welcome_url": "/branding/welcome.html?v=3"
   },
   "default_theme": "Dark",
   "setting_defaults": {

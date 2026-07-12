@@ -33,7 +33,7 @@ RUN set -e; \
     sed -i 's/#76CFA6/#070611/g' /app/manifest.json
 
 # Injeta o CSS custom no index.html em build-time.
-RUN sed -i 's#</head>#<link rel="stylesheet" href="/branding/custom.css?v=1"></head>#' /app/index.html \
+RUN sed -i 's#</head>#<link rel="stylesheet" href="/branding/custom.css?v=2"></head>#' /app/index.html \
  && grep -q '/branding/custom.css' /app/index.html
 
 # Injeta o shim que conserta a reproducao de mensagens de voz Opus/Ogg (ex.: FluffyChat).

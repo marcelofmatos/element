@@ -29,3 +29,57 @@
   color: #ffffff !important;
   box-shadow: 0 8px 24px rgba(124, 58, 237, 0.35);
 }
+
+/* ---------- Welcome page (pagina embutida) ----------
+   O Element sanitiza o HTML do welcome_url: `style` so sobrevive em font/span/img
+   e `class` e removido de tudo (sanitizeHtmlParams em Linkify.ts). Por isso o
+   welcome.html.template e HTML puro (so o ${ELEMENT_BRAND} do envsubst) e todo o
+   visual mora aqui, ancorado no wrapper .mx_WelcomePage_body do EmbeddedPage. */
+.mx_WelcomePage_body {
+  font-family: 'Segoe UI', system-ui, -apple-system, Roboto, sans-serif;
+  color: #1e1930;
+  text-align: center;
+  max-width: 580px;
+  margin: 0 auto;
+  padding: 24px 20px;
+}
+.mx_WelcomePage_body img {
+  width: 96px;
+  height: 96px;
+  border-radius: 24px;
+  object-fit: cover;
+  box-shadow: 0 12px 34px rgba(124, 58, 237, 0.35);
+  margin-bottom: 24px;
+}
+.mx_WelcomePage_body h1 {
+  font-size: 2.5rem;
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+  margin: 0 0 16px;
+}
+.mx_WelcomePage_body h1 span {
+  white-space: nowrap;
+  background: linear-gradient(120deg, #06b6d4 0%, #7c3aed 50%, #d946ef 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.mx_WelcomePage_body p {
+  font-size: 1.15rem;
+  color: #5c5470;
+  margin: 0 auto 28px;
+  max-width: 560px;
+}
+/* botao "Entrar" */
+.mx_WelcomePage_body a[href="#/login"] {
+  display: inline-block;
+  padding: 14px 30px;
+  border-radius: 14px;
+  background: linear-gradient(120deg, #7c3aed 0%, #d946ef 100%);
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 1.02rem;
+  text-decoration: none;
+  box-shadow: 0 10px 30px rgba(124, 58, 237, 0.4);
+}
