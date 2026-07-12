@@ -1,4 +1,4 @@
 <img src="/branding/logo.png?v=1" alt="${ELEMENT_BRAND}" />
 <h1>Bem-vindo ao<br><span>${ELEMENT_BRAND}</span></h1>
-<p>Converse em tempo real com sua equipe e seus clientes num chat <strong>seguro</strong> e <strong>criptografado</strong>, direto do navegador.</p>
+<p>${ELEMENT_TAGLINE}</p>
 <div><a href="#/login">Entrar</a></div>

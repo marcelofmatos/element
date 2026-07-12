@@ -7,7 +7,12 @@ set -e
 : "${ELEMENT_BASE_URL:=https://matrix.example.com}"
 : "${ELEMENT_SERVER_NAME:=example.com}"
 : "${ELEMENT_BRAND:=Chat}"
-export ELEMENT_BASE_URL ELEMENT_SERVER_NAME ELEMENT_BRAND
+# Frase de destaque da tela de boas-vindas. Aceita HTML simples (<strong>, <em>, <br>):
+# o Element sanitiza o welcome_url ao renderizar, entao tags perigosas sao removidas.
+# Vazia ("") esconde o paragrafo (ver .mx_WelcomePage_body p:empty no custom.css) — por isso
+# usa '=' e nao ':=' (':=' trocaria a string vazia pelo default, impedindo esconder a frase).
+: "${ELEMENT_TAGLINE=Converse em tempo real com sua equipe e seus clientes num chat <strong>seguro</strong> e <strong>criptografado</strong>, direto do navegador.}"
+export ELEMENT_BASE_URL ELEMENT_SERVER_NAME ELEMENT_BRAND ELEMENT_TAGLINE
 
 # Substitui APENAS estas vars (o tema usa '#', nao '$', entao e seguro).
 # nginx root = /usr/share/nginx/html -> /app; o Element carrega /config.json daqui.
@@ -15,8 +20,8 @@ envsubst '${ELEMENT_BASE_URL} ${ELEMENT_SERVER_NAME} ${ELEMENT_BRAND}' \
   < /app/config.json.template \
   > /app/config.json
 
-# Pagina de boas-vindas (embedded_pages.welcome_url) com o nome da marca.
-envsubst '${ELEMENT_BRAND}' \
+# Pagina de boas-vindas (embedded_pages.welcome_url) com o nome da marca e a frase.
+envsubst '${ELEMENT_BRAND} ${ELEMENT_TAGLINE}' \
   < /app/branding/welcome.html.template \
   > /app/branding/welcome.html
 

@@ -18,13 +18,29 @@ Imagem autocontida (o branding vai dentro dela), necessária para deploy em
 
 ## Configuração (runtime, via env)
 
-Só **três** coisas são configuráveis — tudo o mais (tema, CSS, ícones, fundo) é criado:
+Só **quatro** coisas são configuráveis — tudo o mais (tema, CSS, ícones, fundo) é criado:
 
 | Variável | Default | Descrição |
 |---|---|---|
 | `ELEMENT_BASE_URL` | `https://matrix.example.com` | `base_url` do homeserver Matrix |
 | `ELEMENT_SERVER_NAME` | `example.com` | `server_name` (a identidade `@user:server_name`) |
 | `ELEMENT_BRAND` | `Chat` | nome exibido no título, no `config.json` e na página de boas-vindas |
+| `ELEMENT_TAGLINE` | `Converse em tempo real…` | frase de destaque da tela de boas-vindas (ver abaixo) |
+
+### `ELEMENT_TAGLINE` — a frase da tela de boas-vindas
+
+Aceita **HTML simples** (`<strong>`, `<em>`, `<br>`, `<a>`): o Element sanitiza a página de
+boas-vindas ao renderizar, então tags perigosas (`<script>` etc.) são descartadas.
+
+```bash
+-e ELEMENT_TAGLINE='Fale com o <strong>síndico</strong> e com a portaria — <em>sem grupo de WhatsApp</em>.'
+```
+
+Passar **vazio esconde a frase** (o parágrafo some, sem deixar buraco no card):
+
+```bash
+-e ELEMENT_TAGLINE=''
+```
 
 ## O que é criado vs. configurável
 
@@ -33,6 +49,7 @@ Só **três** coisas são configuráveis — tudo o mais (tema, CSS, ícones, fu
 | Tema escuro (paleta marcelomatos.dev), `custom.css`, logos, favicon/ícones PWA | `ELEMENT_BASE_URL` |
 | `login-bg.jpg`, template do `welcome.html`, injeção do CSS no `index.html` | `ELEMENT_SERVER_NAME` |
 | Cores do tema, gradientes de login/botões | `ELEMENT_BRAND` (nome da marca) |
+| Layout da página de boas-vindas (logo, título, botão) | `ELEMENT_TAGLINE` (frase de destaque) |
 
 ## Paleta (origem: marcelomatos.dev)
 
@@ -105,6 +122,7 @@ docker run --rm -p 8080:8080 \
   -e ELEMENT_BASE_URL=https://matrix.suaempresa.com \
   -e ELEMENT_SERVER_NAME=suaempresa.com \
   -e ELEMENT_BRAND="Sua Empresa" \
+  -e ELEMENT_TAGLINE='Atendimento <strong>seguro</strong> — direto do navegador.' \
   element:dev
 ```
 

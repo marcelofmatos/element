@@ -71,6 +71,10 @@
   margin: 0 auto 28px;
   max-width: 560px;
 }
+/* ELEMENT_TAGLINE="" -> paragrafo vazio nao deixa buraco na pagina */
+.mx_WelcomePage_body p:empty {
+  display: none;
+}
 /* botao "Entrar" */
 .mx_WelcomePage_body a[href="#/login"] {
   display: inline-block;
