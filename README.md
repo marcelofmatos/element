@@ -180,6 +180,30 @@ Bugs **abertos upstream**: [element-web#32034](https://github.com/element-hq/ele
 corrige) e, a montante de tudo, o encoder do FluffyChat que não finaliza o stream Ogg.
 Verificação repetível: cole [`specs/opus-fix.verify.js`](specs/opus-fix.verify.js) no console do navegador.
 
+
+### Interface em inglês / chaves de i18n cruas em pt-BR
+
+As traduções do Element vêm do **Localazy** e ficam atrás das releases. No `v1.12.23` o
+`pt_BR` estava com **256 chaves faltando (6,9%)** — os filtros da lista de salas apareciam
+em inglês (`Unreads`, `People`, `Rooms`) e o popup de anúncio das Seções chegava a mostrar
+a **chave crua** (`release_announcement|room_list_section_title`), porque o fallback do
+Element não resolve essas chaves.
+
+Não é configuração nossa: reproduz na imagem base crua, e o `pt_BR.json` do upstream não
+tem essas chaves nem no `develop`.
+
+A imagem corrige em build-time (com o `jq` que já existe na base):
+
+1. Aplica `branding/i18n-ptbr-extra.json` — as **256 chaves traduzidas para pt-BR**, seguindo
+   a terminologia que o próprio `pt_BR` já usa (`Sala`, `Pessoas`, `Favoritos`, `Baixa prioridade`).
+2. Completa o que sobrar a partir do `en_EN` (o que um fallback funcional faria), para **nunca
+   restar chave crua**.
+
+`jq -s '.[0] * .[1] * .[2]'` faz merge recursivo com o operando da direita vencendo
+(`en` → `pt_BR` do upstream → nossas). **Não sobrescreve tradução existente**: as 256 são
+exatamente as que faltavam, verificado no build. Resultado: `pt_BR` com as mesmas 3684 chaves
+do `en_EN`.
+
 ## Atualizar a versão do Element base
 
 Trocar a tag no `FROM` do `Dockerfile` (`vectorim/element-web:vX.Y.Z`) e rebuildar.

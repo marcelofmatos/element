@@ -43,6 +43,26 @@ RUN sed -i 's#</head>#<link rel="stylesheet" href="/branding/custom.css?v=2"></h
 RUN sed -i 's#</head>#<script src="/branding/opus-fix.js?v=1"></script></head>#' /app/index.html \
  && grep -q '/branding/opus-fix.js' /app/index.html
 
+# i18n pt-BR: as traducoes do Element vem do Localazy e ficam atras das releases, entao a
+# UI mostra ingles (ex.: "Unreads"/"People"/"Rooms" nos filtros) ou ate a chave crua
+# (release_announcement|room_list_section_title) quando o fallback nao resolve.
+# 1) Aplica as traducoes de branding/i18n-ptbr-extra.json (256 chaves que faltavam);
+# 2) Completa o resto com o en_EN (o que um fallback funcional faria) para nunca sobrar
+#    chave crua. `jq -s '.[0] * .[1]'` = merge recursivo, o operando da DIREITA vence.
+# Idempotente/auto-curavel: a traducao do upstream, quando vier, vence a do en_EN; e as
+# nossas (extra) vencem as duas. Os i18n sao servidos sem `Cache-Control: immutable`
+# (so etag/last-modified), entao sobrescrever no lugar e seguro.
+RUN set -eu; \
+    en="$(ls /app/i18n/en_EN.*.json | head -1)"; \
+    ptbr="$(ls /app/i18n/pt_BR.*.json | head -1)"; \
+    jq -s '.[0] * .[1] * .[2]' "$en" "$ptbr" /app/branding/i18n-ptbr-extra.json > "$ptbr.tmp" \
+      && mv "$ptbr.tmp" "$ptbr"; \
+    pt="$(ls /app/i18n/pt.*.json 2>/dev/null | head -1 || true)"; \
+    if [ -n "$pt" ]; then jq -s '.[0] * .[1]' "$en" "$pt" > "$pt.tmp" && mv "$pt.tmp" "$pt"; fi; \
+    jq -e '.room_list.filters.unread == "Não lidas"' "$ptbr" > /dev/null; \
+    jq -e '.action.cancel == "Cancelar"' "$ptbr" > /dev/null; \
+    rm -f /app/branding/i18n-ptbr-extra.json
+
 # Templates (homeserver + marca via env) + entrypoint que os gera e sobe o nginx.
 COPY config.json.template /app/config.json.template
 COPY welcome.html.template /app/branding/welcome.html.template

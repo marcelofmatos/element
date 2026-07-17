@@ -1,0 +1,406 @@
+{
+  "action": {
+    "click": "Clicar",
+    "hide": "Ocultar",
+    "new_conversation": "Nova conversa",
+    "new_section": "Nova seção",
+    "open_menu": "Abrir menu"
+  },
+  "auth": {
+    "logout_dialog": {
+      "setup_secure_backup_description": "Configure o backup de chaves para não perder o acesso às suas mensagens criptografadas."
+    },
+    "qr_code_login": {
+      "choose_desktop_computer": "Escolha \"%(desktopComputer)s\"",
+      "desktop_computer": "Computador",
+      "open_element_mobile_device": "Abra o %(brand)s no seu celular",
+      "ready_to_scan": "Pronto para escanear",
+      "scan_code_instruction_reciprocate": "Escaneie o código QR abaixo com o seu outro dispositivo",
+      "security_code_title": "Código de segurança",
+      "select_ready_to_scan": "Selecione \"%(readyToScan)s\" e escaneie o código QR mostrado aqui",
+      "start_over": "Começar de novo",
+      "tap_avatar_link_new_device": "Toque no seu avatar e selecione \"%(linkNewDevice)s\""
+    },
+    "sign_in_manually": "Entrar manualmente",
+    "sign_in_with_qr": "Entrar com código QR"
+  },
+  "common": {
+    "disabled_by_homeserver": "Desativado pelo servidor",
+    "encryption_enabled": "Criptografia ativada",
+    "state_encryption_enabled": "Criptografia de estado experimental ativada"
+  },
+  "create_room": {
+    "state_encrypted_warning": "Ativa o suporte experimental à criptografia de eventos de estado, que oculta do servidor metadados como o nome e o tópico da sala. Esses metadados também ficarão ocultos para quem entrar na sala depois e para quem usa clientes sem suporte ao MSC4362.",
+    "state_encryption_label": "Criptografar eventos de estado"
+  },
+  "create_section_dialog": {
+    "create_section": "Criar seção",
+    "description": "Agrupe suas conversas em seções para se organizar.",
+    "edit_section": "Editar seção",
+    "label": "Nome da seção",
+    "title": "Nova seção",
+    "title_edition": "Editar uma seção"
+  },
+  "devtools": {
+    "checking_sticky_events_support": "Verificando o suporte a eventos fixos...",
+    "error_sticky_duration_must_be_a_number": "stickyDuration precisa ser um número",
+    "error_sticky_duration_out_of_range": "stickyDuration precisa estar entre 0 e 36000 milissegundos (1h)",
+    "expired": "Expirado",
+    "expires_in": "Expira em",
+    "explore_sticky_state": "Explorar o estado fixo",
+    "no_sticky_events": "Não há eventos fixos nesta sala.",
+    "restore_from_backup": "Restaurar do backup",
+    "send_custom_sticky_event": "Enviar evento fixo personalizado",
+    "sticky_duration": "Duração do evento fixo (ms)",
+    "sticky_events_not_supported": "O seu servidor ainda não tem suporte a eventos fixos.",
+    "sticky_key": "Chave do evento fixo",
+    "toggle_event": "alternar evento",
+    "user_identity": "Identidade criptográfica",
+    "user_identity_unknown": "Desconhecida"
+  },
+  "encryption": {
+    "continue_with_reset": "Continuar com a redefinição",
+    "identity_needs_reset_description": "Você precisa redefinir a sua identidade digital para garantir o acesso ao seu histórico de conversas"
+  },
+  "invite": {
+    "confirm_unknown_users": {
+      "invite_subtitle": "Você ainda não tem conversas com estes contatos. Confirme o convite antes de continuar.",
+      "invite_title": "Convidar novos contatos para esta sala?",
+      "start_chat_subtitle_multiple_users": "Você ainda não tem conversas com estas pessoas. Confirme o convite antes de continuar.",
+      "start_chat_subtitle_one_user": "Você ainda não tem conversas com esta pessoa. Confirme o convite antes de continuar.",
+      "start_chat_title_multiple_users": "Iniciar uma conversa com estes novos contatos?",
+      "start_chat_title_one_user": "Iniciar uma conversa com este novo contato?"
+    }
+  },
+  "labs": {
+    "config_only": "Só pode ser ativado pelo config.json.",
+    "encrypted_state_events": "Eventos de estado criptografados (MSC4362)",
+    "encrypted_state_events_description": "Ativa o suporte experimental à criptografia de eventos de estado, que oculta do servidor metadados como o nome e o tópico da sala. Esses metadados também ficarão ocultos para quem entrar na sala depois e para quem usa clientes sem suporte ao MSC4362.",
+    "feature_retention": {
+      "description": "Remove automaticamente as mensagens de uma sala quando elas atingem o período de retenção configurado. No momento só permite ler as configurações.",
+      "disabled_sliding_sync": "A retenção não pode ser ativada com o Sliding Sync ativado.",
+      "display_name": "Retenção de mensagens"
+    },
+    "feature_user_status": {
+      "description": "Permite ver e definir um status atual.",
+      "display_name": "Status do usuário",
+      "required_msc_support": "Requer o MSC4429 (Profile Updates for Legacy Sync)"
+    },
+    "login_with_qr": "Entrar com código QR"
+  },
+  "left_panel": {
+    "separator_label": "Clique ou arraste para expandir"
+  },
+  "menus": {
+    "user_menu": {
+      "clear_status": "Limpar",
+      "create_an_account": "Criar uma conta",
+      "got_an_account": "Já tem uma conta?",
+      "manage_account": "Gerenciar conta",
+      "sign_in": "Entrar",
+      "title": "Menu do usuário"
+    }
+  },
+  "notifications": {
+    "default_settings": "Usar as configurações padrão",
+    "mute_room": "Silenciar a sala"
+  },
+  "poll": {
+    "ended_poll_label": "Enquete encerrada",
+    "option_label": "Opção %(number)s, %(answer)s",
+    "option_label_winning_with_total": {
+      "one": "Opção %(number)s, %(answer)s, opção vencedora, %(count)s voto",
+      "other": "Opção %(number)s, %(answer)s, opção vencedora, %(count)s votos"
+    },
+    "option_label_with_total": {
+      "one": "Opção %(number)s, %(answer)s, %(count)s voto",
+      "other": "Opção %(number)s, %(answer)s, %(count)s votos"
+    },
+    "poll_label": "Enquete"
+  },
+  "release_announcement": {
+    "room_list_section_close": "Ok",
+    "room_list_section_description": " Agrupe suas conversas em seções para se organizar e navegar com facilidade.",
+    "room_list_section_title": "Apresentamos as Seções"
+  },
+  "remove_section_dialog": {
+    "confirmation": "Tem certeza de que quer remover esta seção?",
+    "description": "As conversas desta seção não serão excluídas.",
+    "remove_section": "Remover seção",
+    "title": "Remover seção?"
+  },
+  "right_panel": {
+    "pinned_messages": {
+      "header": {
+        "zero": "Mensagens fixadas"
+      }
+    }
+  },
+  "room": {
+    "error_join_unknown": "Ocorreu um erro desconhecido.",
+    "header": {
+      "join_video_call": "Entrar na chamada de vídeo",
+      "join_voice_call": "Entrar na chamada de voz",
+      "shared_history_tooltip": "Novos membros veem o histórico",
+      "world_readable_history_tooltip": "Qualquer pessoa pode ver o histórico"
+    },
+    "history_visibility_badge": {
+      "private": "Novos membros não veem o histórico",
+      "shared": "Novos membros veem o histórico",
+      "world_readable": "Qualquer pessoa pode ver o histórico"
+    },
+    "jump_to_date": "Ir para a data",
+    "jump_to_date_beginning": "O início da sala",
+    "jump_to_date_prompt": "Escolha uma data para ir",
+    "pinned_message_badge": "Mensagem fixada",
+    "status_bar": {
+      "delete_all": "Excluir tudo",
+      "exceeded_resource_limit_description": "Entre em contato com o administrador do serviço para continuar usando o serviço.",
+      "exceeded_resource_limit_title": "Sua mensagem não foi enviada porque este servidor excedeu um limite de recursos.",
+      "failed_to_create_room_title": "Não foi possível iniciar uma conversa com este usuário",
+      "homeserver_blocked_title": "Sua mensagem não foi enviada porque este servidor foi bloqueado pelo administrador.",
+      "monthly_user_limit_reached_title": "Sua mensagem não foi enviada porque este servidor atingiu o limite mensal de usuários ativos.",
+      "requires_consent_agreement_title": "Você não pode enviar mensagens até revisar e aceitar nossos termos e condições.",
+      "retry_all": "Tentar tudo novamente",
+      "select_messages_to_retry": "Você pode selecionar todas ou mensagens individuais para tentar novamente ou excluir",
+      "server_connectivity_lost_description": "As mensagens enviadas serão armazenadas até a conexão voltar.",
+      "server_connectivity_lost_title": "A conexão com o servidor foi perdida.",
+      "some_messages_not_sent": "Algumas das suas mensagens não foram enviadas"
+    }
+  },
+  "room_list": {
+    "a11y": {
+      "default": "Abrir a sala %(roomName)s",
+      "drag_cancelled": "Arrastar cancelado",
+      "drag_end": "%(source)s foi solto sobre %(target)s",
+      "drag_end_after": "%(source)s foi solto depois de %(target)s",
+      "drag_end_before": "%(source)s foi solto antes de %(target)s",
+      "drag_end_original": "%(source)s voltou à posição original",
+      "drag_instructions": "Pressione espaço para começar ou parar de arrastar, as setas para mover e escape para cancelar.",
+      "drag_over": "%(source)s está sobre %(target)s",
+      "drag_over_after": "%(source)s será solto depois de %(target)s",
+      "drag_over_before": "%(source)s será solto antes de %(target)s",
+      "drag_over_original": "%(source)s voltará à posição original",
+      "drag_start": "Arrastando %(source)s",
+      "invitation": "Abrir o convite da sala %(roomName)s.",
+      "mention": {
+        "one": "Abrir a sala %(roomName)s com 1 menção não lida.",
+        "other": "Abrir a sala %(roomName)s com %(count)s menções não lidas."
+      },
+      "unread": {
+        "one": "Abrir a sala %(roomName)s com 1 mensagem não lida.",
+        "other": "Abrir a sala %(roomName)s com %(count)s mensagens não lidas."
+      },
+      "unsent_message": "Abrir a sala %(roomName)s com uma mensagem não enviada.",
+      "video_call": "Abrir a sala %(roomName)s com uma chamada de vídeo.",
+      "voice_call": "Abrir a sala %(roomName)s com uma chamada de voz."
+    },
+    "appearance": "Aparência",
+    "chat_moved": "Conversa movida",
+    "collapse_all_sections": "Recolher todas as seções",
+    "collapse_filters": "Recolher a lista de filtros",
+    "empty": {
+      "no_chats": "Nenhuma conversa ainda",
+      "no_chats_description": "Comece enviando uma mensagem para alguém ou criando uma sala",
+      "no_chats_description_no_room_rights": "Comece enviando uma mensagem para alguém",
+      "no_invites": "Você não tem convites não lidos",
+      "no_mentions": "Você não tem menções não lidas",
+      "no_people": "Você ainda não tem conversas diretas com ninguém",
+      "no_people_description": "Você pode desmarcar os filtros para ver suas outras conversas",
+      "no_rooms": "Você ainda não está em nenhuma sala",
+      "no_rooms_description": "Você pode desmarcar os filtros para ver suas outras conversas",
+      "no_unread": "Parabéns! Você não tem mensagens não lidas",
+      "show_activity": "Ver toda a atividade",
+      "show_chats": "Mostrar todas as conversas"
+    },
+    "expand_all_sections": "Expandir todas as seções",
+    "expand_filters": "Expandir a lista de filtros",
+    "filters": {
+      "invites": "Convites",
+      "mentions": "Menções",
+      "people": "Pessoas",
+      "rooms": "Salas",
+      "unread": "Não lidas"
+    },
+    "more_options": {
+      "copy_link": "Copiar link da sala",
+      "favourited": "Favoritado",
+      "low_priority": "Baixa prioridade",
+      "mark_read": "Marcar como lido",
+      "mark_unread": "Marcar como não lido",
+      "move_to_section": "Mover para",
+      "remove_from_section": "Remover da seção"
+    },
+    "open_space_menu": "Abrir menu do espaço",
+    "primary_filters": "Filtros da lista de salas",
+    "room": {
+      "more_options": "Mais opções"
+    },
+    "room_options": "Opções da sala",
+    "section": {
+      "chats": "Conversas",
+      "favourites": "Favoritos",
+      "low_priority": "Baixa prioridade"
+    },
+    "section_created": "Seção criada",
+    "section_header": {
+      "edit_section": "Editar seção",
+      "more_options": "Mais opções",
+      "remove_section": "Remover seção",
+      "toggle": "Alternar a seção %(section)s",
+      "toggle_unread": "Alternar a seção %(section)s com salas não lidas"
+    },
+    "show_message_previews": "Mostrar prévia das mensagens",
+    "sort": "Ordenar",
+    "sort_type": {
+      "activity": "Atividade recente",
+      "atoz": "A-Z",
+      "unread_first": "Não lidas primeiro"
+    },
+    "space_menu": {
+      "home": "Início do espaço",
+      "space_settings": "Configurações do espaço"
+    },
+    "unread_messages": "Mensagens não lidas"
+  },
+  "room_settings": {
+    "general": {
+      "publish_warn_invite_only": "Você não pode publicar uma sala que é somente por convite.",
+      "publish_warn_no_canonical_permission": "Você precisa ter permissão para definir o endereço principal para publicar esta sala."
+    },
+    "security": {
+      "join_rule_public": "Qualquer pessoa"
+    },
+    "visibility": {
+      "guest_access_disabled": "Você não tem permissão para alterar o acesso de visitantes.",
+      "history_visibility_anyone_space_disabled": "Você não tem permissão para alterar a visibilidade do histórico."
+    }
+  },
+  "settings": {
+    "inline_url_previews_encrypted": "Ativar prévias em salas criptografadas",
+    "preferences": {
+      "link_previews_description": "Mostra informações sobre os links abaixo das mensagens",
+      "link_previews_heading": "Prévias de links"
+    },
+    "security": {
+      "message_search_pending_rooms": "Salas aguardando indexação: %(pendingRooms)s"
+    },
+    "voip": {
+      "echo_cancellation_description": "Remove o eco da entrada do seu microfone durante chamadas. Esta configuração também vale para o Element Call.",
+      "noise_suppression_description": "Reduz o ruído de fundo na entrada do seu microfone durante chamadas. Esta configuração também vale para o Element Call."
+    }
+  },
+  "slash_command": {
+    "status": {
+      "description": "Define o seu status atual",
+      "no_args": "Nenhum argumento fornecido. Informe um emoji e, opcionalmente, um texto.",
+      "no_emoji": "Você não forneceu um emoji",
+      "no_text": "Você não forneceu nenhum texto de status",
+      "too_long_emoji": "O primeiro argumento precisa ser um emoji",
+      "too_long_text": "O texto que você forneceu é longo demais."
+    }
+  },
+  "threads": {
+    "error_start_thread_existing_relation": "Não é possível criar um tópico a partir de um evento que já tem uma relação"
+  },
+  "timeline": {
+    "call_tile": {
+      "declined": {
+        "call_declined": "Chamada recusada",
+        "call_declined_by_us": "Você recusou uma chamada"
+      },
+      "video_call_title": "Chamada de vídeo",
+      "voice_call_title": "Chamada de voz"
+    },
+    "decryption_failure": {
+      "blocked": "O remetente bloqueou o recebimento desta mensagem porque o seu dispositivo não está verificado",
+      "historical_event_no_key_backup": "Mensagens antigas não estão disponíveis neste dispositivo",
+      "historical_event_unverified_device": "Você precisa verificar este dispositivo para acessar as mensagens antigas",
+      "historical_event_user_not_joined": "Você não tem acesso a esta mensagem",
+      "sender_unsigned_device": "Enviada de um dispositivo não seguro."
+    },
+    "download_action_decrypting": "Descriptografando",
+    "e2e_state": "Estado da criptografia de ponta a ponta",
+    "m.file": {
+      "error_invalid": "Arquivo inválido"
+    },
+    "m.room.avatar": {
+      "changed_img": "%(senderDisplayName)s alterou a imagem da sala para<img/>",
+      "removed": "%(senderDisplayName)s removeu a imagem da sala."
+    },
+    "m.room.encryption": {
+      "disable_attempt": "A tentativa de desativar a criptografia foi ignorada",
+      "disabled": "Criptografia não ativada",
+      "enabled": "As mensagens nesta sala são criptografadas de ponta a ponta. Quando alguém entrar, você pode verificar a pessoa no perfil dela — basta tocar na foto.",
+      "enabled_dm": "As mensagens aqui são criptografadas de ponta a ponta. Verifique %(displayName)s no perfil — toque na foto.",
+      "enabled_local": "As mensagens desta conversa serão criptografadas de ponta a ponta.",
+      "parameters_changed": "Alguns parâmetros da criptografia foram alterados.",
+      "state_enabled": "As mensagens e os eventos de estado desta sala são criptografados de ponta a ponta. Quando alguém entrar, você pode verificar a pessoa no perfil dela — basta tocar na foto.",
+      "unsupported": "A criptografia usada nesta sala não é compatível."
+    },
+    "m.room.member": {
+      "ban_reason_spoiler": "%(senderName)s baniu <user/>: %(reason)s",
+      "ban_spoiler": "%(senderName)s baniu <user/>"
+    },
+    "mab": {
+      "collapse_reply_chain": "Recolher citações",
+      "expand_reply_chain": "Expandir citações",
+      "label": "Ações da mensagem"
+    },
+    "message_shared_by": "%(displayName)s (%(userId)s) compartilhou esta mensagem porque você não estava na sala quando ela foi enviada.",
+    "message_timestamp_received_at": "Recebida em: %(dateTime)s",
+    "message_timestamp_sent_at": "Enviada em: %(dateTime)s",
+    "mjolnir": {
+      "message_hidden": "Você ignorou este usuário, então a mensagem dele está oculta.<a> Mostrar mesmo assim.</a>"
+    },
+    "url_preview": {
+      "close": "Fechar prévia",
+      "open_link": "Abrir link",
+      "show_n_more": {
+        "one": "Mostrar %(count)s outra prévia",
+        "other": "Mostrar %(count)s outras prévias"
+      },
+      "view_image": "Ver imagem"
+    }
+  },
+  "user_menu": {
+    "link_new_device": "Conectar novo dispositivo",
+    "open_feedback": "Fale conosco",
+    "open_home": "Início",
+    "open_security": "Segurança e Privacidade",
+    "open_settings": "Todas as configurações"
+  },
+  "voip": {
+    "call_members": {
+      "exhaustive": {
+        "one": "<avatars/> na chamada",
+        "other": "<avatars/> na chamada"
+      },
+      "overflow": {
+        "one": "<avatars/> +%(overflowCount)s na chamada",
+        "other": "<avatars/> +%(overflowCount)s na chamada"
+      }
+    },
+    "group_call_started": "Chamada em grupo iniciada",
+    "join_with_video": "Entrar com vídeo",
+    "voice_call_using": "Chamada de voz usando:"
+  },
+  "welcome": {
+    "tagline_element": "Turbinado para ser rápido e simples.",
+    "title_element": "Sinta-se em seu elemento",
+    "title_generic": "Boas-vindas ao %(brand)s"
+  },
+  "widget": {
+    "capability": {
+      "download_file": "Baixar arquivos do repositório de mídia"
+    },
+    "context_menu": {
+      "move_left": "Mover para a esquerda",
+      "move_right": "Mover para a direita",
+      "remove": "Remover para todos",
+      "revoke": "Revogar permissões",
+      "screenshot": "Tirar uma foto",
+      "start_audio_stream": "Iniciar transmissão de áudio"
+    }
+  }
+}
