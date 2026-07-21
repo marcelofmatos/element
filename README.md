@@ -159,7 +159,7 @@ don't seem to have a fail path"*, diz o próprio comentário), quando ele é aci
 fica pendurado para sempre: `prepare()` nunca termina, o player nunca fica pronto e **nenhum
 erro é logado**.
 
-A imagem injeta [`branding/opus-fix.js`](branding/opus-fix.js) no `index.html` (build-time),
+A imagem injeta [`branding/element-fixes.js`](branding/element-fixes.js) no `index.html` (build-time),
 que envolve `BaseAudioContext.prototype.decodeAudioData` e:
 
 1. **Entrega uma cópia** do buffer ao decodificador nativo — a Web Audio API destaca
@@ -203,6 +203,28 @@ A imagem corrige em build-time (com o `jq` que já existe na base):
 (`en` → `pt_BR` do upstream → nossas). **Não sobrescreve tradução existente**: as 256 são
 exatamente as que faltavam, verificado no build. Resultado: `pt_BR` com as mesmas 3684 chaves
 do `en_EN`.
+
+
+### Botão "Entrar" abria em nova aba
+
+O sanitizador do Element (`apps/web/src/Linkify.ts`, `transformTags.a`) põe
+`target="_blank"` em **todo** `<a>` da página embutida e só o remove quando o href é um
+permalink Matrix ou casa com `ELEMENT_URL_PATTERN`. Esse padrão é montado em runtime a
+partir de `window.location.host + pathname` — **não existe opção de config para isso** —
+então um href relativo como `#/login` ficava com `_blank`.
+
+Nosso `welcome.html` serve o link limpo (`<a href="#/login">`); quem adiciona o atributo é
+o sanitizador, no render. Por isso não dá para corrigir no HTML nem no CSS.
+
+A correção remove `target` (e o `rel` que o acompanha) **apenas de links internos** — hrefs
+que começam com `#` ou `/`. Links externos mantêm `target="_blank"` e
+`rel="noreferrer noopener"`, preservando a proteção original.
+
+> Alternativa descartada: usar URL absoluta com o host exato (`https://<host>/#/login`)
+> faz o sanitizador remover o `target` sozinho — testado e funciona. Mas exigiria uma env
+> com o host público e, se ela não bater com o host realmente acessado (alias, porta,
+> proxy), o `_blank` volta em silêncio **e** o botão passa a apontar para outro domínio.
+> Para uma imagem usada em domínios arbitrários, o shim é mais seguro.
 
 ## Atualizar a versão do Element base
 

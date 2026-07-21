@@ -36,12 +36,17 @@ RUN set -e; \
 RUN sed -i 's#</head>#<link rel="stylesheet" href="/branding/custom.css?v=2"></head>#' /app/index.html \
  && grep -q '/branding/custom.css' /app/index.html
 
-# Injeta o shim que conserta a reproducao de mensagens de voz Opus/Ogg (ex.: FluffyChat).
-# O Element alimenta seu fallback WAV com um ArrayBuffer ja destacado por decodeAudioData(),
-# entao o fallback nunca roda e o audio nao toca. O shim entrega uma copia ao decodificador
-# nativo, preservando o buffer do chamador. Ver specs/spec-element-web-opus-fluffychat.md
-RUN sed -i 's#</head>#<script src="/branding/opus-fix.js?v=1"></script></head>#' /app/index.html \
- && grep -q '/branding/opus-fix.js' /app/index.html
+# Injeta as correcoes de runtime sobre o Element oficial (bundle minificado, nao da p/
+# corrigir no fonte sem buildar tudo). Um arquivo so, uma tag so:
+#   1. audio Opus/Ogg do FluffyChat (Ogg sem flag EOS + fallback WAV alimentado com
+#      ArrayBuffer ja destacado por decodeAudioData);
+#   2. target="_blank" nos links INTERNOS da tela de boas-vindas — o sanitizador
+#      (Linkify.ts, transformTags.a) so o remove p/ permalinks Matrix ou URLs que casem
+#      com ELEMENT_URL_PATTERN, que e montado de window.location em runtime (nao ha
+#      config p/ isso); um href relativo como "#/login" ficava com _blank.
+RUN sed -i 's#</head>#<script src="/branding/element-fixes.js?v=1"></script></head>#' /app/index.html \
+ && grep -q '/branding/element-fixes.js' /app/index.html
+
 
 # i18n pt-BR: as traducoes do Element vem do Localazy e ficam atras das releases, entao a
 # UI mostra ingles (ex.: "Unreads"/"People"/"Rooms" nos filtros) ou ate a chave crua

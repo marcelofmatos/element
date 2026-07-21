@@ -1,4 +1,17 @@
 /*
+ * element-fixes.js — correcoes de runtime aplicadas sobre o Element Web oficial.
+ *
+ * Sao patches de DOM/JS porque o bundle distribuido e minificado: nao da para corrigir
+ * no fonte sem buildar o Element inteiro. Cada bloco abaixo documenta a causa raiz e
+ * pode ser removido isoladamente quando o upstream corrigir.
+ *
+ *   1. Mensagens de voz Opus/Ogg (ex.: FluffyChat) que nao tocavam.
+ *   2. Botao "Entrar" da tela de boas-vindas abrindo em nova aba.
+ *
+ * Ver specs/ para o diagnostico completo de cada uma.
+ */
+
+/*
  * Correção: mensagens de voz Opus/Ogg (ex.: gravadas no FluffyChat) não tocam no
  * Element Web — o player fica vermelho ou nunca fica pronto.
  *
@@ -30,6 +43,9 @@
  * Patch de runtime — nao exige buildar o Element do fonte. Inofensivo se o upstream
  * corrigir. Ver specs/spec-element-web-opus-fluffychat.md
  */
+/* ---------------------------------------------------------------------------
+ * 1) Audio Opus/Ogg
+ * ------------------------------------------------------------------------- */
 (function () {
     "use strict";
 
@@ -145,4 +161,80 @@
         decodeAudioData.__opusFixApplied = true;
         proto.decodeAudioData = decodeAudioData;
     });
+})();
+
+/*
+ * Correção: o botão "Entrar" da tela de boas-vindas abria em uma NOVA ABA.
+ *
+ * CAUSA (upstream, verificada no fonte v1.12.23):
+ *   O Element sanitiza a pagina embutida (`embedded_pages.welcome_url`) e o transformador
+ *   de <a> em apps/web/src/Linkify.ts faz:
+ *
+ *       attribs.target = "_blank"; // by default
+ *       ...so remove se for permalink Matrix ou casar com ELEMENT_URL_PATTERN
+ *
+ *   Um href interno relativo como "#/login" nao e permalink nem casa com aquele padrao,
+ *   entao o `target="_blank"` permanece. O nosso welcome.html serve o link LIMPO
+ *   (<a href="#/login">) — quem adiciona o atributo e o sanitizador, em tempo de render.
+ *   Por isso nao da para corrigir no HTML nem no CSS: tem de ser no DOM.
+ *
+ * O QUE ESTE SHIM FAZ:
+ *   Observa o documento e remove `target` (e o `rel` que o acompanha) de links INTERNOS
+ *   da pagina de boas-vindas — apenas hrefs que comecam com "#" ou "/". Links externos
+ *   (http/https para outros dominios) mantem `target="_blank"` e `rel="noreferrer
+ *   noopener"`, preservando a protecao original.
+ */
+/* ---------------------------------------------------------------------------
+ * 2) Links internos da tela de boas-vindas
+ * ------------------------------------------------------------------------- */
+(function () {
+    "use strict";
+
+    // Interno = ancora da propria SPA ("#/login") ou caminho do mesmo host ("/algo").
+    function isInternal(href) {
+        if (!href) return false;
+        return href.charAt(0) === "#" || (href.charAt(0) === "/" && href.charAt(1) !== "/");
+    }
+
+    function fixLink(a) {
+        if (!a.hasAttribute("target")) return;
+        if (!isInternal(a.getAttribute("href"))) return; // externo: preserva _blank + rel
+        a.removeAttribute("target");
+        a.removeAttribute("rel"); // rel=noopener so faz sentido junto do _blank
+    }
+
+    function scan(root) {
+        if (!root || typeof root.querySelectorAll !== "function") return;
+        var links = root.querySelectorAll("a[target]");
+        for (var i = 0; i < links.length; i++) fixLink(links[i]);
+    }
+
+    function start() {
+        scan(document);
+        // O EmbeddedPage renderiza depois (fetch do welcome_url), e o React pode remontar
+        // o no — por isso observamos em vez de rodar so uma vez.
+        new MutationObserver(function (mutations) {
+            for (var m = 0; m < mutations.length; m++) {
+                var added = mutations[m].addedNodes;
+                for (var n = 0; n < added.length; n++) {
+                    var node = added[n];
+                    if (node.nodeType !== 1) continue;
+                    if (node.tagName === "A") fixLink(node);
+                    scan(node);
+                }
+                if (mutations[m].type === "attributes") fixLink(mutations[m].target);
+            }
+        }).observe(document.documentElement, {
+            childList: true,
+            subtree: true,
+            attributes: true,
+            attributeFilter: ["target"],
+        });
+    }
+
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", start);
+    } else {
+        start();
+    }
 })();
